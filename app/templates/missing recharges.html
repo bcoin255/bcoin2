@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <p>Total mRecharge Transactions: {{ total_recharge_transactions }}</p>
+    <p>Missing amount: {{ total_missing_recharge }}</p>
+    <h1>Missing recharges</h1>
+    {% for transaction in missing_recharges %}
+      <div class="col-3">
+        <p>{{ forloop.counter }}</p>
+        <p>{{ transaction.username }}</p>
+        <p>{{ transaction.timestamp.date }}</p>
+        <p>{{ transaction.timestamp.time }}</p>
+        <p>{{ transaction.amount }}</p>
+      </div>
+      <hr />
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

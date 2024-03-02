@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login Page{% endblock %}
+
+{% block navbar %}
+
+{% endblock %}
+
+{% block body %}
+
+<section id="body-container" class="full">
+    <div class="container">
+        <div class="row pt-5">
+            <div class="col-lg-5 col-sm-10 mx-auto d-flex text-center">
+                <div class="header-wrapper d-flex mx-auto my-5"  style="background: rgba(14, 84, 136, 0.8); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <span class="d-flex justify-content-start align-items-center">
+                      <a href="/">
+                          <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                      </a>
+                    </span>
+                    <span class="d-block justify-content-center mx-auto">
+                      <h1 class="display-4 text-uppercase text-white mb-0" style="font-size: 50px;">
+                          <strong>Login Form</strong>
+                      </h1>
+                      <div class="title-underline bg-primary"></div>
+                      <p class="mt-2 text-capitalize text-faded">Fill in the form to login.</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-5 col-sm-10 mx-auto">
+                <div class="form-wrapper"  style="background: rgba(14, 84, 136, 0.8); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <div class="form-inner">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="exampleInputUsermame" class="form-label text-white">Username</label>
+                                <input type="text" class="form-control" name="username" id="exampleInputUsermame" aria-describedby="usernameHelp" required>
+                                <div id="usernameHelp" class="form-text">We'll never share your credentials with anyone else.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label text-white">Password</label>
+                                <input type="password" class="form-control" name="password" id="exampleInputPassword1" required>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1" onchange="passwordViewLogin()">
+                                <label class="form-check-label text-white" for="exampleCheck1">See Password</label>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <input type="submit" class="btn btn-primary" value="Login" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

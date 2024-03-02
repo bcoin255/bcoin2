@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Pending Recharges Page{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Pending Recharges</h1>
+            {% if pending_recharges %}
+            {% for recharge in pending_recharges %}
+            <p>Username: {{ recharge.username }}</p>
+            <p>Amount: {{ recharge.amount }}</p>
+            <p>Sender Mpesa Name: {{ recharge.mpesa_name }}</p>
+            <p>Sender Mpesa Code: {{ recharge.mpesa_code }}</p>
+            <p>Sender Mpesa Number: {{ recharge.user.userdetails.phone }}</p>
+            <p>Receiver Mpesa Name: {{ recharge.receiver_account.name }}</p>
+            <p>Receiver Mpesa Number: {{ recharge.receiver_account.mpesa_number }}</p>
+            <p>Code: {{ recharge.order_id }}</p>
+            <a class="btn btn-primary" href="/adm/update_recharge/{{ recharge.id }}/">Authenticate Recharge</a>
+            <a class="btn btn-danger" href="/adm/delete_recharge/{{ recharge.id }}/">delete Recharge</a>
+            <hr>
+            {% endfor %}
+            {% else %}
+            <p>No pending withdrawal</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

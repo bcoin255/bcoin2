@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}product details{% endblock %}
+
+{% block body %}
+<style>
+    .container{
+        background-color: transparent;
+    }
+    .product-text {
+        font-weight: bold;
+    }
+</style>
+
+<section id="body-container" class="full">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto">
+                <div class="d-flex w-100">
+                    <span class="d-flex align-items-center">
+                        <a href="/" class="text-white">
+                            <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                        </a>
+                    </span>
+                    <span class="mx-auto">
+                        <h1 class="text-center text-white">
+                            Product Details
+                        </h1>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto pb-5">
+                <!-- Card for product details -->
+              <div class="card"  style="background-color: rgba(0,0,0,0.2);">
+                  <div class="product-head d-flex">
+                    <img src="{{ product.image }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                  </div>
+                <div class="card-body  text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong class="text-warning">Product Name</strong>
+                        <div class="product-text text-white">{{ product.name }}</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong class="text-warning">Cost</strong>
+                        <div class="product-text text-white">{{ product.cost }}</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong class="text-warning">Daily Earnings</strong>
+                        <div class="product-text text-white">Ksh {{ product.daily_earnings }}</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-warning">Cycles</strong>
+                        <div class="product-text text-white">{{ product.cycles }}</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-warning">Total Earnings</strong>
+                        <div class="product-text text-white">{{ total_earnings }}</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-warning">Total Returns</strong>
+                        <div class="product-text text-white">{{ total_returns }}%</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-warning">Minimum Withdrawal</strong>
+                        <div class="product-text text-white">{{ product.minimum_withdrawal }}</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-warning">Quantity Limit</strong>
+                        <div class="product-text text-white">{{ product.quantity_limit }}</div>
+                    </div>
+                    <hr>
+
+                  <!-- Payment methods -->
+                  <h6 class="mb-2 text-center">Payment method</h6>
+                  <div class="my-3 d-flex justify-content-around">
+                      <a href="/buy_product/{{ product.pk }}/">
+                        <button class="btn btn-primary">Buy from wallet</button>
+                      </a>
+                      <a href="/initiate_recharge/">
+                        <button class="btn btn-dark">Recharge wallet</button>
+                      </a>
+                  </div>
+
+                  <!-- Product description -->
+                  <p class="card-text text-center">{{ product.description }}</p>
+
+                  <!-- VIP status -->
+                  <div class="text-center">
+                  {% if product.vip_status %}
+                    <span class="badge bg-warning text-dark">VIP</span>
+                  {% else %}
+                    <span class="badge bg-dark">Regular</span>
+                  {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

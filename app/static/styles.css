@@ -1,0 +1,265 @@
+body {
+    min-height: 100vh;
+}
+
+.full-body {
+    min-height: 90vh;
+}
+
+.blue-1 {
+    color: #0E5488;
+}
+
+.bg-blue-1 {
+    background-color: #0E5488;
+}
+
+.green-1 {
+    color: #2EBF6A;
+}
+
+.bg-green-1 {
+    background-color: #2EBF6A;
+}
+
+.green-2 {
+    color: #46C254;
+}
+
+.bg-green-2 {
+    background-color: #46C254;
+}
+
+.text-faded {
+    color: #cccccc;
+}
+
+.bg-faded {
+    color: #cccccc;
+}
+
+#body-container {
+    background: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.6)) ,url('https://res.cloudinary.com/dl6uac51b/image/upload/v1700386939/bcoin/images/bitcoin/bitcoin2_hk3g2x.jpg')center/cover no-repeat fixed;
+}
+
+.full {
+    min-height: 100vh;
+}
+
+.this-full {
+    min-height: 79vh;
+}
+
+.message-container {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000; /* Ensure it's above other content */
+  background-color: rgba(255, 0, 0, 0.8); /* Example styling */
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  display: none; /* Hide by default */
+}
+
+.carousel-wrapper {
+    width: 100%;
+    background-color: rgba(100, 100, 100, 0.3);
+    height: 56vh;
+}
+
+.carousel-body {
+    max-height: 50vh;
+    max-width: 576px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 1;
+}
+
+@media (max-width: 576px) {
+    .carousel-wrapper {
+        background-color: rgba(0, 0, 0, 0);
+    }
+}
+
+@media (min-width: 576px) {
+    .carousel-body {
+        max-width: 100vh;
+    }
+    .carousel-wrapper {
+        background-color: rgba(0, 0, 0, 0);
+    }
+}
+
+.center-div {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.col-6 .card-text {
+  color: inherit;
+  text-decoration: none;
+}
+
+.col-6 .card {
+  transition: transform 0.25s ease, box-shadow 0.75s ease;
+}
+
+.col-6 .card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.scroll-container {
+  display: flex; /* Stacks children horizontally */
+  overflow-x: auto; /* Enables horizontal scrolling */
+  overflow-y: hidden;
+  width: 100%; /* Set to desired width */
+  height: fit;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+}
+
+.header-wrapper {
+  background: rgba(0, 100, 0, 1); /* Translucent white background */
+  width: 100%;
+  border-top-left-radius: 15px; /* Rounded top-left corner */
+  border-top-right-radius: 15px; /* Rounded top-right corner */
+  /* No bottom border-radius for sharp corners */
+}
+
+.header-wrapper > span:first-child {
+  flex-grow: 0; /* Prevent the arrow span from stretching */
+}
+
+.header-wrapper > span:last-child {
+  flex-grow: 1; /* Allow the title span to take up remaining space */
+  text-align: center; /* Center the content */
+}
+
+.form-wrapper {
+  background: rgba(0, 100, 0, 1); /* Translucent white background */
+  width: 100%;
+  top: 0;
+  border-bottom-left-radius: 15px; /* Rounded bottom-left corner */
+  border-bottom-right-radius: 15px; /* Rounded bottom-right corner */
+  padding: 20px; /* Add some padding inside the wrapper */
+}
+
+.form-inner {
+  max-width: 500px; /* Limit the maximum width of the form */
+  margin: auto; /* Center the form in the form-inner div */
+}
+
+@media (max-width: 768px) {
+  .form-inner {
+      max-width: 100%; /* Allow the form to expand on smaller screens */
+  }
+}
+
+.footer {
+    width: 100%;
+    height: 65px;
+    bottom: 0;
+    background-color: #0E5488; /* Adjust the color to match your design */
+    color: white;
+    padding: 10px 0;
+}
+.footer .nav-link {
+    color: white;
+    transition: color 0.2s;
+}
+.footer .nav-link:hover {
+    color: lightgray; /* Adjust hover color as needed */
+}
+
+@media (max-width: 576px) {
+    .footer {
+        height: 89px;
+    }
+}
+
+.home-underline {
+    text-decoration: underline;
+    text-decoration-color: yourGreenColorCode; /* Same color as green-1 */
+    text-decoration-thickness: 2px; /* Adjust thickness as needed */
+}
+
+/* Style the container with a horizontal scroll */
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 20px;
+}
+
+/* Style the product section title and more link */
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+/* Style each product card */
+.product-card {
+    display: inline-block;
+    width: 160px; /* Adjust as needed */
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.75);
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Fixed size for images */
+.product-img img {
+    width: 130px; /* Fixed width */
+    height: 130px; /* Fixed height, adjust as needed */
+    object-fit: cover; /* Cover to maintain aspect ratio */
+}
+
+.product-card p{
+    text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .product-card {
+      width: 120px; /* Smaller width on mobile */
+  }
+    .product-img img {
+      width: 100px;
+      height: 100px;
+  }
+  /* Make the scrollbar thinner on small screens */
+    .scroll-container::-webkit-scrollbar {
+      width: 4px; /* Adjust the thickness as needed */
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2); /* Scrollbar thumb color */
+      border-radius: 2px; /* Rounded corners for the thumb */
+    }
+
+    /* For Firefox */
+    .scroll-container {
+      scrollbar-width: thin;
+    }
+  }
+
+.card {
+    background-color: rgba(0,100,0,1);
+}
+.product-head {
+    max-height: 255px;
+}
+.product-head img {
+     object-fit: cover;
+}
+.card-body {
+    background-color: rgba(255,255,255,0.2);
+}

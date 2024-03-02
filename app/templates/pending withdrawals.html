@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Pending Withdrawals Page{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <h1>Pending Withdrawals</h1>
+        {% if all_pending %}
+            <div class="col">
+                {% for request in all_pending %}
+                <p>Username: {{ request.username }}</p>
+                <p>Amount: {{ request.amount }}</p>
+                <p>Time stamp: {{ request.time_stamp }}</p>
+                <p>M-pesa number: {{ request.mpesa_number }}</p>
+                <p>M-pesa name: {{ request.mpesa_name }}</p>
+                <p>Time stamp: {{ request.time_stamp }}</p>
+                <a class="btn btn-primary" href="/adm/update_withdrawal/{{ request.id }}/">Authenticate Withdrawal</a>
+                <a class="btn btn-danger" href="/adm/delete_withdrawal/{{ request.id }}/">delete Recharge</a>
+                {% endfor %}
+            </div>
+        {% else %}
+        <p>No pending withdrawals</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Buy Product Page{% endblock %}
+
+{% block body %}
+<style>
+    .container{
+        background-color: transparent;
+    }
+    .card {
+        background-color: rgba(255,255,255,0.35);
+    }
+    .card-body {
+        background-color: rgba(255,255,255,0.2);
+    }
+</style>
+<section id="body-container" class="this-full">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto">
+                <!-- Card for product details -->
+              <div class="card ">
+                <div class="card-body text-dark">
+                    <h3 class="text-center text-white">Are you sure you want to buy this product?</h3>
+                    <form action="/buy_product/{{ product_id }}/" method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-around align-items-center">
+                            <input type="submit" class="btn btn-success" name="yes" placeholder="Yes" value="Yes">
+                            <input type="submit" class="btn btn-warning" name="no" placeholder="No" value="No">
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

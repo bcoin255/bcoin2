@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Team Page{% endblock %}
+
+{% block body %}
+<style>
+    .card {
+        width: 22rem;
+        background-color: white;
+    }
+    @media(min-width:992px){
+        .card {
+            width: 18rem;
+        }
+    }
+    @media(min-width:1120px){
+        .card {
+            width: 22rem;
+        }
+    }
+</style>
+<style>
+  .info-box {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.46875rem 2.1875rem rgb(0 0 0 / 3%), 0 0.9375rem 1.40625rem rgb(0 0 0 / 3%), 0 0.25rem 0.53125rem rgb(0 0 0 / 5%), 0 0.125rem 0.1875rem rgb(0 0 0 / 3%);
+    padding: 1rem;
+    position: relative;
+  }
+
+  .info-box .card-body {
+    padding: 1.25rem;
+  }
+
+  .info-box .card-title {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .info-box .card-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  .info-box small {
+    font-size: 0.875rem;
+    color: #6c757d;
+  }
+
+  .info-icon {
+    font-size: 1rem; /* Adjust the size as needed */
+  }
+
+  a {
+    text-decoration: none;
+  }
+</style>
+<style>
+  .custom-table {
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+  }
+
+  .custom-table thead th {
+    border-bottom: none;
+  }
+
+  .custom-table tbody tr {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 0.5rem;
+  }
+
+  th, td {
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .referral_row {
+    width: 120px;
+  }
+
+  .count_row {
+    width: 40px !important;
+  }
+
+  .referrals_row { 
+    width: 120px;
+  }  
+
+    /* Style for table data cells (td) */
+    .table-wrapper td {
+      padding: 10px; /* Data cell padding */
+      text-align: left; /* Data text alignment */
+    }
+
+  .priority-high {
+    color: #ff4757;
+    background-color: #ffebee;
+    border-radius: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .priority-medium {
+    color: #ffa502;
+    background-color: #fff3e0;
+    border-radius: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .priority-low {
+    color: #2ed573;
+    background-color: #e8f5e9;
+    border-radius: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .member-img {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    position: relative;
+    z-index: 3;
+  }
+
+  .member-stack {
+    margin-left: -1rem;
+    display: inline-block;
+  }
+
+  .progress-bar {
+    background-color: #747d8c;
+    border-radius: 1rem;
+  }
+
+  .progress {
+    background-color: #ecf0f1;
+    border-radius: 1rem;
+  }
+
+  .view-all {
+    text-align: center;
+    margin-top: 2rem;
+  }
+</style>
+<style>
+    .chart-container {
+        width: 100%; /* Chart container takes full width of its parent */
+        max-width: 900px; /* Maximum width, can be adjusted */
+        margin: auto; /* Centers the chart */
+        aspect-ratio: 16 / 9; /* Maintains a 16:9 aspect ratio */
+    }    
+
+    .table {
+      min-width: 800px !important;
+    }
+
+    #chart_div, #curve_chart {
+        width: 100%; /* Chart takes full width of its container */
+        height: 100%; /* Chart takes full height of its container */
+    }
+
+    @media screen and (max-width: 767px) {
+        .chart-container {
+            height: 300px; /* Smaller height for smaller screens */
+        }
+    }
+</style>
+<section id="body-container" class="full">
+    <div class="container">
+        <div class="row">
+            <div class="col-9 col-xl-10 col-sm-6 col-md-12 mx-auto">
+                <div class="d-flex">
+                    <span class="d-flex align-items-center">
+                        <a href="/" class="text-white">
+                            <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                        </a>
+                    </span>
+                    <span class="mx-auto">
+                        <h1 class="text-center text-white">
+                            My Team
+                        </h1>
+                    </span>
+                </div>
+                <div class="title-underline bg-primary"></div>
+                <p class="mt-2 text-capitalize text-faded text-center">View information about your team members.</p>
+            </div>
+        </div>
+    
+    <div class="container mt-5">
+      {% if referrals %}
+      <div class="table-wrapper">
+        <table class="table custom-table table-striped"  id="myTeamTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th scope="col">Username</th>
+              <th scope="col">Full Names</th>
+              <th scope="col">Subscription Status</th>
+              <th scope="col">Join Date</th>
+              <th scope="col">Join Time</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Repeat this TR for each project -->
+            {% for referral in referrals %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td><i class="fab fa-dropbox"></i>{{ referral.child.username }}</td>
+              <td>{{ referral.child.first_name }} {{ referral.child.last_name }}</td>
+              <td>
+                  {% if referral.first_product %}
+                  <span class="priority-medium">Active</span>
+                  {% else %}
+                  <span class="priority-high">Inactive</span>
+                  {% endif %}
+              </td>
+              <td>{{ referral.created_at.date }}</td>
+              <td>{{ referral.created_at.time }}</td>
+              <td>
+                  <a href="https://wa.me/{{ referral.child.userdetails.phone }}/"  target="_blank">whatsapp</a>
+              </td>
+              <td>
+                  <a href="tel:{{ referral.child.userdetails.phone }}" class="card-link" target="_blank">phone</a>
+              </td>
+            </tr>
+            <!-- End of TR for each project -->
+            {% endfor %}
+            
+          </tbody>
+        </table>
+        {% else %}
+          <p class="text-danger text-center">No Referrals Yet.</p>
+        {% endif %}
+      </div>    
+    </div>
+</section>
+
+{% endblock %}

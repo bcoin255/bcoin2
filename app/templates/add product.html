@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}add product{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <form action="/adm/add_products/" method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" name="name" class="form-control" id="name" aria-describedby="name-desc">
+        <div id="name-desc" class="form-text">The name of the product e.g., D-12.</div>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="description" class="form-control" id="description" aria-describedby="description-desc" placeholder="Brief description about the package."></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="daily-earnings" class="form-label">Daily Earnings</label>
+        <input type="number" class="form-control" name="daily-earnings" id="daily-earnings" aria-describedby="daily-earnings-desc">
+        <div id="daily-earnings-desc" class="form-text">Average daily earnings for users with this product.</div>
+      </div>
+      <div class="mb-3">
+        <label for="cost" class="form-label">Cost</label>
+        <input type="number" class="form-control" name="cost" id="cost" aria-describedby="cost-desc">
+        <div id="cost-desc" class="form-text">Cost for subscribing to this product.</div>
+      </div>
+      <div>
+        <label for="from-price" class="form-label">From Price</label>
+        <input type="number" class="form-control" name="from-price" id="from-price" aria-describedby="cost-desc" value=0>
+        <div id="from-price-desc" class="form-text">Originally from what price?</div>
+      </div>
+      <div class="mb-3">
+        <label for="cycles" class="form-label">Cycles</label>
+        <input type="number" class="form-control" name="cycles" id="cycles" aria-describedby="cycles-desc">
+        <div id="cycles-desc" class="form-text">Number of cycles in days.</div>
+      </div>
+      <div class="mb-3">
+        <label for="quantity-limit" class="form-label">Quantity Limit</label>
+        <input type="number" class="form-control" name="quantity-limit" id="quantity-limit" aria-describedby="quantity-limit-desc">
+        <div id="quantity-limit-desc" class="form-text">Number of instances user can run with same type of product.</div>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input type="text" class="form-control" name="image" id="image" aria-describedby="image-desc">
+        <div id="image-dec" class="form-text">Image URL.</div>
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" name="vip-only" id="vip-only">
+        <label class="form-check-label" for="vip-only">Available to VIP only</label>
+      </div>
+      <input type="submit" class="btn btn-primary" value="ADD"/>
+    </form>
+</div>
+
+{% endblock %}

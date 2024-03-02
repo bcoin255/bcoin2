@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% load post_tags %}
+
+{% block title %}My Machines{% endblock %}
+
+{% block body %}
+
+<style>
+    .table-wrapper{
+        width: 100
+    }
+    /* Add this CSS to your existing styles.css or in a <style> tag in your HTML */
+
+    /* Style for the table-wrapper */
+    .table-wrapper {
+      width: 100%;
+      background-color: rgba(255,255,255,0.25);
+      border-radius: 10px;
+      border: 1px solid #cccccc;
+      overflow-x: auto; /* Enable horizontal scrolling */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+
+    /* Style for the table */
+    .table-wrapper table {
+      width: auto; /* Set the table width to auto for horizontal scrolling */
+      table-layout: fixed; /* Fix table layout for equal column widths */
+      border-collapse: collapse; /* Collapse table borders */
+    }
+
+    .th_row {
+        background-color: rgba(0,0,0,0.75);
+    }
+
+    th, td {
+        border: 1px solid rgba(255,255,255,0.35);
+        min-width: 85px;
+        text-align: center;
+    }
+
+    /* Style for table data cells (td) */
+    .table-wrapper td {
+      padding: 10px; /* Data cell padding */
+      text-align: left; /* Data text alignment */
+      border: 1px solid #ddd; /* Data cell border */
+    }
+
+    td div {
+        background-color: rgba(0,0,0,0.75);
+        color: white;
+        text-align: center;
+        font-size: 16px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    @media(min-width: 768px) {
+        th, td {
+            border: 1px solid rgba(255,255,255,0.35);
+            min-width: 130px;
+        }
+    }
+
+    .product-image {
+        max-width: 100%;
+        min-width: 115px;
+        max-height: 100px;
+    }
+    .product-image img {
+        min-width: 100%;
+    }
+    .count_down {
+        min-width: 100px;
+    }
+</style>
+
+<section id="body-container" class="this-full">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="table-wrapper">
+                    <table>
+                        <tr class="th_row text-white">
+                            <th></th>
+                            <th>Name</th>
+                            <th>Daily Income</th>
+                            <th>Cycles</th>
+                            <th>Rate of Return</th>
+                            <th>Total Returns</th>
+                            <th>Minimum Withdrawal</th>
+                            <th>Quantity Limit</th>
+                            <th>Accumulated Cash</th>
+                            <th>Date of Expiry</th>
+                            <th>Time of Expiry</th>
+                            <th></th>
+                        </tr>
+                        {% if machines %}
+                        {% for machine in machines %}
+                        <tr>
+                            <td><img src="{{ machine.product.image }}" class="product-image" alt=""></td>
+                            <td>
+                                <div>{{ machine.product.name }}</div>
+                            </td>
+                            <td>
+                                <div>{{ machine.product.daily_earnings }}</div>
+                            </td>
+                            <td>
+                                <div>{{ machine.product.cycles }}</div>
+                            </td>
+                            <td>
+                                <div>{% return_percentage machine.product.cycles machine.product.daily_earnings machine.product.cost %}%</div>
+                            </td>
+                            <td>
+                                <div>{% total_returns machine.product.cycles machine.product.daily_earnings %}</div>
+                            </td>
+                            <td>
+                                <div>{{ machine.product.minimum_withdrawal }}</div>
+                            </td>
+                            <td>
+                                <div>{{ machine.product.quantity_limit }}</div>
+                            </td>
+                            <td>
+                                <div>{{ machine.days_amount }}</div>
+                            </td>
+                            {% calculate_expiry machine.created_at machine.product.cycles machine.number_of_weekends as expiry %}
+                            <td>
+                                <div class="text-danger">{{ expiry.date }}</div>
+                            </td>
+                            <td>
+                                <div class="text-danger">{{ expiry.time }}</div>
+                            </td>
+                            <td>
+                                {% if is_weekday %}
+                                {% remaining_time machine.time_of_last_pay_off machine.pk machine.created_at as time %}
+                                {% if machine.days_amount > 0 %}
+                                    <a href="/adm/pay_user_claim/{{ machine.pk }}/" class="btn btn-success">pay</a>
+                                {% else %}
+                                    <div class="count_down" id="count_down">
+                                        <span id="hours-{{ machine.pk }}">{{ time.hours }}</span>:
+                                        <span id="minutes-{{ machine.pk }}">{{ time.minutes }}</span>:
+                                        <span id="seconds-{{ machine.pk }}">{{ time.seconds }}</span>
+                                    </div>
+                                    <script>
+                                        // JavaScript function to update the countdown timer
+                                        function updateCountdown() {
+                                            const hoursElement = document.getElementById('hours-' +  machine.pk );
+                                            const minutesElement = document.getElementById('minutes-' +  machine.pk );
+                                            const secondsElement = document.getElementById('seconds-' +  machine.pk );
+
+                                            const countDownElement = document.getElementById('count_down');
+
+                                            let hours = parseInt(hoursElement.textContent);
+                                            let minutes = parseInt(minutesElement.textContent);
+                                            let seconds = parseInt(secondsElement.textContent);
+
+                                            if (hours === 0 && minutes === 0 && seconds === 0) {
+                                                // Timer has reached 0, you can add any desired action here
+                                                countDownElement.innerHTML = '<span class="text-danger">Refresh browser</span>';
+                                            } else {
+                                                if (seconds > 0) {
+                                                    seconds--;
+                                                } else {
+                                                    if (minutes > 0) {
+                                                        minutes--;
+                                                        seconds = 59;
+                                                    } else {
+                                                        if (hours > 0) {
+                                                            hours--;
+                                                            minutes = 59;
+                                                            seconds = 59;
+                                                        }
+                                                    }
+                                                }
+                                                // Update the HTML elements with the new values
+                                                hoursElement.textContent = hours.toString().padStart(2, '0');
+                                                minutesElement.textContent = minutes.toString().padStart(2, '0');
+                                                secondsElement.textContent = seconds.toString().padStart(2, '0');
+                                            }
+                                        }
+
+                                        // Initialize the countdown
+                                        setInterval(updateCountdown, 1000); // Update every second
+                                    </script>
+                                {% endif %}
+                                {% else %}
+                                <div>Weekend</div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="12" class="text-center text-white">No machines yet.</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

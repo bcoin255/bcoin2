@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Complete Transactions Page{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <h1 class="text-center">Complete Transactions</h1>
+        <div class="col">
+            <h2 class="text-center">Recharges</h2>
+            {% if complete_recharges %}
+            {% for recharge in complete_recharges %}
+                <p>Username: {{ recharge.username }}</p>
+                <p>Amount: {{ recharge.amount }}</p>
+                <p>Sender Mpesa Name: {{ recharge.mpesa_name }}</p>
+                <p>Sender Mpesa Number: {{ recharge.user.userdetails.phone }}</p>
+                <p>Receiver Mpesa Name: {{ recharge.receiver_account.name }}</p>
+                <p>Receiver Mpesa Number: {{ recharge.receiver_account.mpesa_number }}</p>
+                <p>Code: {{ recharge.order_id }}</p>
+                <hr>
+            {% endfor %}
+            {% else %}
+            <p>No recharges yet</p>
+            {% endif %}
+        </div>
+        <div class="col">
+            <h2 class="text-center">Withdrawals</h2>
+            {% if complete_withdrawals %}
+            {% for withdrawal in complete_withdrawals %}
+                <p>Username: {{ withdrawal.username }}</p>
+                <p>Amount: {{ withdrawal.amount }}</p>
+                <p>Time stamp: {{ withdrawal.time_stamp }}</p>
+            {% endfor %}
+            {% else %}
+            <p>No withdrawals yet</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

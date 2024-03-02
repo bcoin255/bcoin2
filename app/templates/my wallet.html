@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Wallet Page{% endblock %}
+
+{% block body %}
+<style>
+    .custom-card {
+        width: 100%;
+        background-color: rgba(0,0,0,0.2);
+        border-radius: 10px;
+    }
+    .container{
+        background-color: transparent;
+    }
+    .card {
+        background-color: rgba(0,0,0,0.2);
+    }
+    .card-body {
+        background-color: transparent;
+    }
+    .font-bold {
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .custom-accordion-color {
+        background-color: rgba(248, 249, 250, 0.5); /* Light grey with transparency */
+        color: #333; /* Dark text color for contrast */
+    }
+    #accordionExample {
+        background: transparent !important;
+   }
+</style>
+<section id="body-container" class="full">
+    <div class="container pb-5">
+        <div class="row">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto">
+                <div class="d-flex w-100">
+                    <span class="d-flex align-items-center">
+                        <a href="/" class="text-white">
+                            <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                        </a>
+                    </span>
+                    <span class="mx-auto">
+                        <h1 class="text-center text-white">
+                            My Wallet
+                        </h1>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto">
+                <div class="card" style="background-color: rgba(255,255,255,0.2);">
+                    <div class="card-body">
+                        <div class="custom-card">
+                            <div class="d-flex ps-3 justify-content-between align-items-center">
+                                <h4 class="d-block text-center text-warning">
+                                    <strong>My Balance</strong>
+                                </h4>
+                                <div class="px-2">
+                                    <h5 class="text-white">{{ user.userdetails.balance }}</h5>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex ps-3 justify-content-between align-items-center">
+                                <h4 class="d-block text-center text-warning">
+                                    <strong>Internal Activities</strong>
+                                </h4>
+                                <div class="px-2">
+                                    <h5 class="text-white">{{ internal_activities }}</h5>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex ps-3 justify-content-between align-items-center">
+                                <div class="d-block text-center text-warning">
+                                    <strong>Recharge Wallet</strong>
+                                    <div>{{ total_pending_recharge }}</div>
+                                </div>
+                                <div class="px-2">
+                                    <a href="/initiate_recharge/" class="btn btn-outline-success text-white">Recharge</a>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex ps-3 justify-content-between align-items-center">
+                                <div class="d-block text-center text-warning">
+                                    <strong>Withdrawal Wallet</strong>
+                                    <div>{{ total_pending_withdrawal }}</div>
+                                </div>
+                                <div class="px-2">
+                                    <a href="/withdraw/" class="btn btn-outline-warning text-white">Withdraw</a>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex ps-3 justify-content-between align-items-center px-2">
+                                <div class="d-block text-center text-warning">
+                                    <strong>Total Withdrawal</strong>
+                                    <div>{{ total_complete_withdrawal }}</div>
+                                </div>
+                                <div class="text-white">
+                                    <strong>Total Recharge</strong>
+                                    <div class="text-center">{{ total_complete_recharge }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="personal-information py-3">
+                            {% if all_pending_withdrawals %}
+                            <h2 class="text-center text-warning">Withdrawals</h2>
+                            <h4 class="text-white">Pending Withdrawals</h4>
+                              {% for withdrawal in all_pending_withdrawals %}
+                                <p class="text-dark font-bold">
+                                    Please note that withdrawals are authenticated within 72 hours. If your withdrawal is not effected by
+                                    this time please contact customer care.
+                                </p>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Amount</strong>
+                                <span>{{ withdrawal.amount }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Date</strong>
+                                <span>{{ withdrawal.time_stamp.date }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Time</strong>
+                                <span>{{ withdrawal.time_stamp.time }}</span>
+                              </div>
+                            <hr>
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if all_pending_recharges or recharges_awaiting_authentication %}
+                            <h2 class="text-center text-warning">Recharges</h2>
+                            {% if all_pending_recharges %}
+                            <h4 class="text-white">Pending Recharges</h4>
+                            <p class="text-dark font-bold">
+                                Please note that recharges are supposed to be completed within 48 hours. If you
+                                haven't completed your recharge by then, it will be automatically deleted.
+                            </p>
+                            {% for recharge in all_pending_recharges %}
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Amount</strong>
+                                <span>{{ recharge.amount }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Date</strong>
+                                <span>{{ recharge.time_stamp.date }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Time</strong>
+                                <span>{{ recharge.time_stamp.time }}</span>
+                              </div>
+                            <hr>
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if recharges_awaiting_authentication %}
+                            <h4 class="text-white">Recharges awaiting authentication.</h4>
+                            <p class="text-dark font-bold">Please note that all recharges awaiting authentication should be completed within 3 hours. If this
+                time is exceeded please contact customer care.</p>
+                            {% for recharge in recharges_awaiting_authentication %}
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Amount</strong>
+                                <span>{{ recharge.amount }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Date</strong>
+                                <span>{{ recharge.created_at.date }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Time</strong>
+                                <span>{{ recharge.created_at.time }}</span>
+                              </div>
+                            <hr>
+                            {% endfor %}
+                            {% endif %}
+                            {% endif %}
+
+                            <h2 class="text-center text-warning">Transactions</h2>
+                            {% if all_transactions %}
+                            <h4 class="text-white">All Transactions</h4>
+                            <div class="accordion mb-3" id="accordionExample">
+                                {% for transaction in all_transactions %}
+                                <!-- Each Accordion Item -->
+                                <div class="accordion-item pb-2">
+                                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                        <button class="accordion-button custom-accordion-color" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                                            {{ transaction.time_stamp.date }} {{ transaction.time_stamp.time }} - {{ transaction.transaction_type }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                                        <div class="row accordion-body">
+                                            <div class="col-6">
+                                                <strong>Amount</strong>
+                                            </div>
+                                            <div class="col-6">
+                                                <div>{{ transaction.amount }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row accordion-body">
+                                            <div class="col-6">
+                                                <strong>Account Balance</strong>
+                                            </div>
+                                            <div class="col-6">
+                                                <div>{{ transaction.account_balance }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row accordion-body">
+                                            <div class="col-12">
+                                                {{ transaction.description }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="text-center text-white">No transactions yet.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-3 text-center">
+        <a href="/" class="nav-link d-sm-block d-md-flex">
+          <div class="icon-div">
+            <i class="fas fa-home"></i>
+          </div>
+          <p class="px-1">Home</p>
+        </a>
+      </div>
+      <div class="col-3 text-center">
+        <a href="/products/" class="nav-link d-sm-block d-md-flex">
+          <div class="icon-div">
+            <i class="fas fa-th"></i>
+          </div>
+          <p class="px-1">Product</p>
+        </a>
+      </div>
+      {% if user.is_authenticated %}
+        <div class="col-3 text-center">
+          <a href="/my_balance/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-wallet green-1"></i>
+            </div>
+            <p class="px-1 green-1">Wallet</p>
+          </a>
+
+        </div>
+        <div class="col-3 text-center">
+          <a href="/my_profile/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-user"></i>
+            </div>
+            <p> Profile</p>
+          </a>
+
+        </div>
+      {% else %}
+        <div class="col text-center">
+          <a href="/login/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-key"></i>
+            </div>
+            <p class="px-1"> Login</p>
+          </a>
+        </div>
+        <div class="col-3 text-center">
+          <a href="/register/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <p class="px-1">Signup</p>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</footer>
+{% endblock %}

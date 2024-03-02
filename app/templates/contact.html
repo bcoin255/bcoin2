@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block body %}
+<style>
+    #body-container{
+        width: 100vw !important;
+    }
+    .contact-wrapper{
+        height: 80px;
+        width: 320px;
+        background-color: rgba(255,255,255,0.75);
+    }
+    .whatsapp-icon {
+        height: 60px;
+        width: 60px;
+        background-color: #46C254;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 15px;
+        border-radius: 10px;
+    }
+    a {
+        text-decoration: none;
+    }
+</style>
+
+<section id="body-container" class="full">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex w-100">
+                    <span class="d-flex align-items-center">
+                        <a href="/" class="text-white">
+                            <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                        </a>
+                    </span>
+                    <span class="mx-auto">
+                        <h1 class="text-center text-white">
+                            Contact Us
+                        </h1>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-around">
+        <div class="col-sm-10 col-md-6 col-lg-4 py-2 pb-2  d-flex justify-content-around align-items-center">
+            <a href="https://wa.me/{{ customer_care }}?text=Hello%20there." target="_blank">
+                <div class="d-flex align-items-center contact-wrapper">
+                    <div class="whatsapp-icon text-dark d-flex justify-content-center align-items-center">
+                        <i class="fa-brands fa-whatsapp" style="font-size: 55px;"></i>
+                    </div>
+                    <div class="whatsapp-message my-auto pt-2">
+                        <h4 class="px-2">Customer Care.</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-10 col-md-6 col-lg-4 py-2 d-flex justify-content-center align-items-center">
+            <a href="https://wa.me/{{ technical_support }}?text=Hello%20there.%20My%20name%20is%20{{ user.first_name }}%20{{ user.last_name }},%20managing%20an%20account%20with%20username%20'{{ user.username }}'.%20I%20am%20texting%20with%20a%20technical%20issue.\n"  target="_blank">
+                <div class="d-flex align-items-center contact-wrapper">
+                    <div class="whatsapp-icon text-dark d-flex justify-content-center align-items-center">
+                        <i class="fa-brands fa-whatsapp" style="font-size: 55px;"></i>
+                    </div>
+                    <div class="whatsapp-message my-auto pt-2">
+                        <h4 class="px-2">Technical Support.</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

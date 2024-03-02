@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Registration Page{% endblock %}
+
+{% block navbar %}
+
+{% endblock %}
+
+{% block body %}
+
+<section id="body-container">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-5 col-sm-10 mx-auto d-flex text-center">
+                <div class="header-wrapper d-flex mx-auto my-5" style="background: rgba(14, 84, 136, 0.8); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <span class="d-flex justify-content-start align-items-center">
+                      <a href="/">
+                          <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                      </a>
+                    </span>
+                    <span class="d-block justify-content-center mx-auto">
+                      <h1 class="display-4 text-uppercase text-white mb-0" style="font-size: 50px;">
+                          <strong>Edit Profile</strong>
+                      </h1>
+                      <div class="title-underline bg-primary"></div>
+                      <p class="mt-2 text-capitalize text-faded">Fill in the form to edit your profile.</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-sm-10 mx-auto">
+                <div class="form-wrapper"  style="background: rgba(14, 84, 136, 0.8); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <div class="form-inner">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="exampleInputUsermame" class="form-label text-white">Username</label>
+                                <input type="text" class="form-control" name="username" id="exampleInputUsermame" aria-describedby="usernameHelp" value='{{ user.username }}' required>
+                                <div id="usernameHelp" class="form-text">We'll never share your credentials with anyone else.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="first-name" class="form-label text-white">First Name</label>
+                                <input type="text" class="form-control" name="first-name" id="first-name" aria-describedby="first-name-desc" value="{{ user.first_name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="last-name" class="form-label text-white">Last Name</label>
+                                <input type="text" class="form-control" name="last-name" id="last-name" aria-describedby="last-name-desc" value="{{ user.last_name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label text-white">Email</label>
+                                <input type="email" class="form-control" name="email" id="email" aria-describedby="email-desc" value="{{ user.email }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label text-white">Phone</label>
+                                <input type="text" class="form-control" name="phone" id="phone" aria-describedby="phone-desc" value="{{ user.userdetails.phone }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password1" class="form-label text-white">Password</label>
+                                <input type="password" class="form-control" name="password1" id="password1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password2" class="form-label text-white">Confirm Password</label>
+                                <input type="password" class="form-control" name="password2" id="password2" required>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1" onchange="passwordViewRegister()">
+                                <label class="form-check-label text-white" for="exampleCheck1">See Password</label>
+                            </div>
+                            
+                            <div class="d-flex mx-auto">
+                                <input type="submit" class="btn btn-primary mx-auto" value="Save" placeholder="Save" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

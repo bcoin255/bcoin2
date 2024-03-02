@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<style>
+    .container{
+        background-color: transparent;
+    }
+    .product-text {
+        font-weight: bold;
+    }
+</style>
+
+<section id="body-container" class="full">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto">
+                <div class="d-flex w-100">
+                    <span class="d-flex align-items-center">
+                        <a href="/" class="text-white">
+                            <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                        </a>
+                    </span>
+                    <span class="mx-auto">
+                        <h1 class="text-center text-white">
+                            {{ news.title }}
+                        </h1>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto pb-5">
+                <!-- Card for product details -->
+              <div class="card"  style="background-color: rgba(0,0,0,0.2);">
+                  <div class="product-head d-flex">
+                    <img src="{{ news.image }}" class="card-img-top img-fluid" alt="{{ news.title }}">
+                  </div>
+                <div class="card-body  text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong class="text-warning">Likes</strong>
+                        <div class="product-text text-white">{{ news.likes }}</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong class="text-warning">Views</strong>
+                        <div class="product-text text-white">{{ news.views }}</div>
+                    </div>
+                    <hr>                   
+                  </div>
+                  <!-- Product description -->
+                  <p class="card-text text-center text-white">{{ news.description }}</p>                  
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

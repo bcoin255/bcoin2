@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Products Page{% endblock %}
+
+{% block body %}
+<style>
+  /* Style each product card */
+  .product-card {
+    display: relative;
+    width: 160px; /* Adjust as needed */
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.75);
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Fixed size for images */
+  .product-img img {
+    width: 130px; /* Fixed width */
+    height: 130px; /* Fixed height, adjust as needed */
+    object-fit: cover; /* Cover to maintain aspect ratio */
+  }
+
+  .product-card p{
+    text-decoration: none;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .product-card {
+      max-width: 120px; /* Smaller width on mobile */
+    }
+    .product-img img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+</style>
+<section id="body-container" class="full">
+    <div class="container">
+        <div class="row pt-3">
+          <div class="col text-center">
+            <h1 class="display-4 text-uppercase text-white mb-0" style="font-size: 50px;">
+                <strong>products</strong>
+            </h1>
+            <div class="title-underline bg-primary"></div>
+            <p class="mt-2 text-capitalize text-faded">Click on a product to subscribe.</p>
+          </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row mx-auto d-flex justify-content-center">
+            {% if discounted %}
+            <h2 class="text-white">Discounted Products</h2>
+            {% for product in discounted %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 pb-3 mx-auto">
+                <a href="/product/{{ product.pk }}/">
+                  <div class="product-card">
+                    <div class="product-img">
+                      <img
+                        src="{{ product.image }}"
+                        alt="smh"
+                        class="bg-white"
+                      />
+                    </div>
+                    <p>
+                      {{ product.name }} <br />
+                      Ksh {{ product.cost }}
+                    </p>
+                  </div>
+                </a>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="row mx-auto d-flex justify-content-center">
+            {% if full_priced %}
+            <h2 class="text-white">All Products</h2>
+            {% for product in full_priced %}
+            <div class="col-4 col-sm-4 col-md-3 col-lg-2 pb-3 mx-auto">
+                <!-- Placeholder for Products -->
+                <a href="/product/{{ product.pk }}/">
+              <div class="product-card">
+                <div class="product-img">
+                  <img
+                    src="{{ product.image }}"
+                    alt="smh"
+                    class="bg-white"
+                  />
+                </div>
+                <p>
+                  {{ product.name }} <br />
+                  Ksh {{ product.cost }}
+                </p>
+              </div>
+            </a>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>Product list is empty</p>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-3 text-center">
+        <a href="/" class="nav-link d-sm-block d-md-flex">
+          <div class="icon-div">
+            <i class="fas fa-home"></i>
+          </div>
+          <p class="px-1">Home</p>
+        </a>
+      </div>
+      <div class="col-3 text-center">
+        <a href="/products/" class="nav-link d-sm-block d-md-flex">
+          <div class="icon-div">
+            <i class="fas fa-th green-1"></i>
+          </div>
+          <p class="px-1 green-1">Product</p>
+        </a>
+      </div>
+      {% if user.is_authenticated %}
+        <div class="col-3 text-center">
+          <a href="/my_wallet/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-wallet"></i>
+            </div>
+            <p class="px-1">Wallet</p>
+          </a>
+
+        </div>
+        <div class="col-3 text-center">
+          <a href="/my_profile/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-user"></i>
+            </div>
+            <p> Profile</p>
+          </a>
+
+        </div>
+      {% else %}
+        <div class="col-3 text-center">
+          <a href="/login/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-key"></i>
+            </div>
+            <p class="px-1"> Login</p>
+          </a>
+        </div>
+        <div class="col-3 text-center">
+          <a href="/register/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <p class="px-1">Signup</p>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</footer>
+{% endblock %}

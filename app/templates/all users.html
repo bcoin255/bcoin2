@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+
+{% block title %}Products Page{% endblock %}
+
+{% block body %}
+
+<style>
+  .info-box {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.46875rem 2.1875rem rgb(0 0 0 / 3%), 0 0.9375rem 1.40625rem rgb(0 0 0 / 3%), 0 0.25rem 0.53125rem rgb(0 0 0 / 5%), 0 0.125rem 0.1875rem rgb(0 0 0 / 3%);
+    padding: 1rem;
+    position: relative;
+  }
+
+  .info-box .card-body {
+    padding: 1.25rem;
+  }
+
+  .info-box .card-title {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .info-box .card-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  .info-box small {
+    font-size: 0.875rem;
+    color: #6c757d;
+  }
+
+  .info-icon {
+    font-size: 1rem; /* Adjust the size as needed */
+  }
+
+  a {
+    text-decoration: none;
+  }
+</style>
+<style>
+  .custom-table {
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+  }
+
+  .custom-table thead th {
+    border-bottom: none;
+  }
+
+  .custom-table tbody tr {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 0.5rem;
+  }
+
+  th, td {
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .referral_row {
+    width: 120px;
+  }
+
+  .count_row {
+    width: 40px !important;
+  }
+
+  .referrals_row { 
+    width: 120px;
+  }  
+
+    /* Style for table data cells (td) */
+    .table-wrapper td {
+      padding: 10px; /* Data cell padding */
+      text-align: left; /* Data text alignment */
+    }
+
+  .priority-high {
+    color: #ff4757;
+    background-color: #ffebee;
+    border-radius: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .priority-medium {
+    color: #ffa502;
+    background-color: #fff3e0;
+    border-radius: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .priority-low {
+    color: #2ed573;
+    background-color: #e8f5e9;
+    border-radius: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .member-img {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    position: relative;
+    z-index: 3;
+  }
+
+  .member-stack {
+    margin-left: -1rem;
+    display: inline-block;
+  }
+
+  .progress-bar {
+    background-color: #747d8c;
+    border-radius: 1rem;
+  }
+
+  .progress {
+    background-color: #ecf0f1;
+    border-radius: 1rem;
+  }
+
+  .view-all {
+    text-align: center;
+    margin-top: 2rem;
+  }
+</style>
+<style>
+    .chart-container {
+        width: 100%; /* Chart container takes full width of its parent */
+        max-width: 900px; /* Maximum width, can be adjusted */
+        margin: auto; /* Centers the chart */
+        aspect-ratio: 16 / 9; /* Maintains a 16:9 aspect ratio */
+    }    
+
+    .table {
+      min-width: 800px !important;
+    }
+
+    #chart_div, #curve_chart {
+        width: 100%; /* Chart takes full width of its container */
+        height: 100%; /* Chart takes full height of its container */
+    }
+
+    @media screen and (max-width: 767px) {
+        .chart-container {
+            height: 300px; /* Smaller height for smaller screens */
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="table-wrapper">
+      <table class="table custom-table" id="allUsersTable">
+        <thead>
+          <tr>
+              <th></th>
+            <th scope="col">Username</th>
+            <th scope="col">Date Joined</th>
+            <th scope="col">Active Subscriptions</th>
+            <th scope="col">Status</th>
+            <th scope="col">Referrals</th>
+            <th scope="col">Progress</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Repeat this TR for each project -->
+          {% if all_users %}
+          {% for user in all_users %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ user.user.date_joined }}</td>
+              <td><i class="fab fa-dropbox"></i> {{ user.username }}</td>
+              <td>{{ user.active_subscriptions }}</td>
+              <td><span class="priority-medium">{% if user.user.is_active %}Active{% else %}Inactive{% endif %}</span></td>
+              <td>
+                {% if user.total_referrals == 0 %}
+                <i class="text-danger">No referrals yet.</i>
+                {% elif user.total_referrals == 1 %}
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img">
+                <span>{{ user.total_referrals }}</span>
+                {% elif user.total_referrals == 2 %}
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img member-stack">
+                <span>{{ user.total_referrals }}</span>
+                {% elif user.total_referrals == 3 %}
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img member-stack">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img member-stack">
+                <span>{{ user.total_referrals }}</span>
+                {% elif user.total_referrals == 4 %}
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img member-stack">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img member-stack">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img member-stack">
+                <span>{{ user.total_referrals }}</span>
+                {% else %}
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img member-stack">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img member-stack">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img member-stack">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0efdKLaNWqb-JKASydDA2A8CxHElhLqhu3g&usqp=CAU" alt="member" class="member-img member-stack">
+                {% if user.total_referrals == 5 %}
+                <span>{{ user.total_referrals }}</span>
+                {% else %}
+                <span>{{ user.total_referrals }}</span>
+                {% endif %}
+                {% endif %}
+              </td>
+              <td>
+                <div>
+                  <a href="/adm/edit_user/{{ user.pk }}/" class="btn btn-outline-success">view user</a>
+                </div>
+              </td>
+            </tr>
+            <!-- End of TR for each project -->
+            {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5">No Subscribed Users Yet.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+      </table>
+    </div>
+</div>
+
+<script>
+    new DataTable("#allUsersTable");
+</script>
+{% endblock %}

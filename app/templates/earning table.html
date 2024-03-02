@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% load post_tags %}
+
+{% block title %}Earning Table{% endblock %}
+
+{% block body %}
+<style>
+    
+    .contact-wrapper{
+        height: 80px;
+        width: 320px;
+        background-color: rgba(255,255,255,0.75);
+    }
+    .whatsapp-icon {
+        height: 60px;
+        width: 60px;
+        background-color: #46C254;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 15px;
+        border-radius: 10px;
+    }
+    a {
+        text-decoration: none;
+    }
+    .table-wrapper{
+        width: 100%;
+    }
+
+    .text-golden {
+      color: #fdd017;
+    }
+    /* Add this CSS to your existing styles.css or in a <style> tag in your HTML */
+
+    /* Style for the table-wrapper */
+    .table-wrapper {
+      width: 100%;
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      border: 1px solid #cccccc;
+      overflow-x: auto; /* Enable horizontal scrolling */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+
+    /* Style for the table */
+    .table-wrapper table {
+      width: auto; /* Set the table width to auto for horizontal scrolling */
+      table-layout: fixed; /* Fix table layout for equal column widths */
+      border-collapse: collapse; /* Collapse table borders */
+    }
+
+    .th_row {
+        background-color: rgba(0,0,0,0.75);
+    }
+
+    th, td {
+        border: 1px solid rgba(255,255,255,0.35);
+        min-width: 85px;
+        text-align: center;
+    }
+
+    /* Style for table data cells (td) */
+    .table-wrapper td {
+      padding: 10px; /* Data cell padding */
+      text-align: left; /* Data text alignment */
+      border: 1px solid #ddd; /* Data cell border */
+    }
+
+    .table-wrapper table {
+      width: auto; /* Set the table width to auto for horizontal scrolling */
+      min-width: 100%; /* Set the minimum width to 100% to match the table-wrapper */
+      table-layout: fixed; /* Fix table layout for equal column widths */
+      border-collapse: collapse; /* Collapse table borders */
+    }
+    
+    /* Adjusting the table cells (th, td) */
+    .th_row th,
+    .table-wrapper td {
+      min-width: 130px; /* Set a minimum width for the cells to ensure readability */
+      padding: 10px; /* Data cell padding */
+      text-align: left; /* Data text alignment */
+      border: 1px solid #ddd; /* Data cell border */
+    }
+
+    td div {
+        background-color: rgba(0,0,0,0.75);
+        color: white;
+        text-align: center;
+        font-size: 16px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    @media(min-width: 768px) {
+        th, td {
+            border: 1px solid rgba(255,255,255,0.35);
+            min-width: 130px;
+        }
+    }
+
+    .product-image {
+        max-width: 100%;
+        min-width: 115px;
+        max-height: 100px;
+    }
+    .product-image img {
+        min-width: 100%;
+    }
+    .count_down {
+        min-width: 100px;
+    }
+</style>
+
+<section id="body-container" class="full">
+    <div class="container">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr class="th_row text-white">
+                <th class="text-golden"></th>
+                <th class="text-golden">Name</th>
+                <th class="text-golden">Cost</th>
+                <th class="text-golden">Daily Income</th>
+                <th class="text-golden">Cycles</th>
+                <th class="text-golden">Rate of Return</th>
+                <th class="text-golden">Total Returns</th>
+                <th class="text-golden">Minimum Withdrawal</th>
+                <th class="text-golden">Quantity Limit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for machine in machines %}
+                <tr class="text-danger">
+                    <td class="text-golden"><img src="{{ machine.image }}" class="product-image" alt=""></td>
+                    <td class="text-golden">
+                        <div class="text-golden">{{ machine.name }}</div>
+                    </td>
+                    <td class="text-golden">
+                        <div class="text-golden">{{ machine.cost }}</div>
+                    </td>
+                    <td class="text-golden">
+                        <div class="text-golden">{{ machine.daily_earnings }}</div>
+                    </td>
+                    <td class="text-golden">
+                        <div class="text-golden">{{ machine.cycles }}</div>
+                    </td>
+                    <td class="text-golden">
+                        <div class="text-golden">{% return_percentage machine.cycles machine.daily_earnings machine.cost %}%</div>
+                    </td>
+                    <td class="text-golden">
+                        <div class="text-golden">{% total_returns machine.cycles machine.daily_earnings %}</div>
+                    </td>
+                    <td class="text-golden">
+                        <div class="text-golden">{{ machine.minimum_withdrawal }}</div>
+                    </td>
+                    <td class="text-golden">
+                        <div class="text-golden">{{ machine.quantity_limit }}</div>
+                    </td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+</section>
+{% endblock %}

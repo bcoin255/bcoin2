@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Recharge Page{% endblock %}
+
+{% block body %}
+<style>
+  /* Custom CSS */
+  .no-outline:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* This will make the button rounded fully on the left and right */
+  .rounded-pill {
+    border-radius: 50rem !important; /* Bootstrap 4 uses rem for border-radius */
+  }
+
+  /* Adjust the spacing of the form-group if necessary */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+</style>
+
+{% block navbar %}
+
+{% endblock %}
+
+<section class="bg-green-1">
+    <div class="container bg-white h-100">
+        <div class="row">
+            <div class="col-lg-6 col-sm-6 mx-auto">
+                <div class="d-flex w-100">
+                    <span class="d-flex align-items-center">
+                        <a href="/" class="text-dark">
+                            <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                        </a>
+                    </span>
+                    <span class="mx-auto">
+                        <img src="https://africabusinesscommunities.com/Images/Key%20Logos/mpesa.jpg" style="height:108px;" alt="">
+                    </span>
+                </div>
+                <div>
+                    <p>OrderId: {{ order_id }}</p>
+                    <p class="text-danger">
+                        If your payment is not complete within a total of 3 hours, please contact the platform's customer service. Ensure that you only do one recharge at a time, and only recharge again if you have no pending recharge.
+                    </p>
+                    <form action="/complete_recharge/{{ recharge_id }}/" method="post">
+                            {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            <p>Pay Amount</p>
+                            <p>{{ amount }}</p>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <p>Send To Name</p>
+                            <p>{{ receiver.name }}</p>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <p>Send To Number</p>
+                            <p id="receiver-mpesa-number">{{ receiver.mpesa_number }}</p>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button id="copyNumber" class="btn btn-outline-warning">copy number</p>
+                        </div>
+                        <hr>
+                        <div class="form-group"> <!-- Bootstrap class for form group -->
+                          <input type="text" class="form-control no-outline" name="mpesa_name" placeholder="Enter your mpesa names." required />
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control no-outline" name="mpesa_code" placeholder="Input mpesa code e.g., QGU03OXKHC." required />
+                        </div>
+                        <div class="form-group d-flex justify-content-center"> <!-- Center the button -->
+                          <input type="submit" value="I have made the payment" class="bg-green-1 btn rounded-pill" /> <!-- rounded-pill for fully rounded sides -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+      document.getElementById('copyNumber').addEventListener('click', function() {
+  
+          const mpesaNumber = "{{ receiver.mpesa_number  }}";
+  
+          // Copy URL to clipboard
+          navigator.clipboard.writeText(mpesaNumber).then(() => {
+              // Change button content on successful copy
+              this.innerText = 'Number copied';
+              this.style.color = "red";
+              this.style.backgroundColor = "transparent";
+              this.style.border = '0';
+          }).catch(err => {
+              console.error('Error in copying URL: ', err);
+          });
+      });
+  </script>
+  
+</section>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

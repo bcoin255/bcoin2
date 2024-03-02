@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Profile Page{% endblock %}
+
+{% block body %}
+
+<style>
+    .container{
+        background-color: transparent;
+    }
+    .card-body {
+        background-color: rgba(0,0,0,0.2);
+    }
+    .font-bold {
+        font-weight: bold;
+        font-size: 18px;
+    }
+</style>
+
+<section id="body-container" class="full">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto">
+                <div class="d-flex w-100">
+                    <span class="d-flex align-items-center">
+                        <a href="/" class="text-white">
+                            <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                        </a>
+                    </span>
+                    <span class="mx-auto">
+                        <h1 class="text-center text-white">
+                          User Profile
+                        </h1>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto">
+                <!-- Card for product details -->
+              <div class="card text-white" style="background-color: rgba(255,255,255,0.2);">
+                  <div class="card-body">
+                      <div class="account-info">
+                        <h1 class="text-center">{{ user_profile.username }}</h1>
+                        <h2 class="text-center text-warning">User Account Information</h2>
+                        <div class="px-2 d-flex justify-content-between">
+                            <strong>Total Recharges</strong>
+                            <span>{{ total_recharges }}</span>
+                        </div>
+                        <div class="px-2 d-flex justify-content-between">
+                            <strong>Total Withdrawals</strong>
+                            <span>{{ total_withdrawals }}</span>
+                        </div>
+                        <div class="px-2 d-flex justify-content-between">
+                            <strong>Today's Income</strong>
+                            <span>{{ todays_income }}</span>
+                        </div>
+                        <div class="px-2 d-flex justify-content-between">
+                            <strong>Internal Activities</strong>
+                            <span>{{ internal_activities }}</span>
+                        </div>
+                        <div class="px-2 d-flex justify-content-between">
+                            <strong>Account Balance</strong>
+                            <span>{{ user_profile.userdetails.balance }}</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <div class="pt-2 d-flex justify-content-center">
+                              <a href="/adm/view_team/{{ user_profile.pk }}/" class="btn btn-info text-center">View Team</a>
+                            </div>
+                            <div class="pt-2 d-flex justify-content-center">
+                              <a href="/adm/view_user_machines/{{ user_profile.pk }}/" class="btn btn-primary text-center">View Machines</a>
+                            </div>
+                        </div>
+                        
+                      </div>
+                      <hr class="text-danger" >
+                      <div class="px-2">
+                          <form method="post" id="myForm">
+                            {% csrf_token %}
+                            <div class="form-group row">
+                                <label class="col-sm-3 text-danger col-form-label">Operation</label>
+                                <div class="col-sm-9">
+                                    <div class="d-flex align-items-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="operation" id="addRadio" value="add">
+                                            <label class="form-check-label" for="addRadio">
+                                                Add
+                                            </label>
+                                        </div>
+                                        <div class="form-check ps-5">
+                                            <input class="form-check-input" type="radio" name="operation" id="subtractRadio" value="subtract">
+                                            <label class="form-check-label" for="subtractRadio">
+                                                Subtract
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row pb-2 text-danger">
+                                <label for="amount" class="col-sm-3 col-form-label">Amount</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" id="amount" name="amount" placeholder="amount">
+                                </div>
+                            </div>
+                            <div class="form-group row text-danger">
+                                <label for="message" class="col-sm-3 col-form-label">Message</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="message" name="message" placeholder="message">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center pt-3">
+                                <button type="submit" class="btn btn-danger text-center">Save</button>
+                            </div>
+                        </form>
+
+                        <script>
+                            document.getElementById("myForm").onsubmit = function() {
+                                var add = document.getElementById("addRadio").checked;
+                                var subtract = document.getElementById("subtractRadio").checked;
+                                var amount = document.getElementById("amount").value;
+                        
+                                var operation = add ? "add" : "subtract";
+                                if (add || subtract) {
+                                    return confirm("Are you sure you want to " + operation + " the amount " + amount + "?");
+                                } else {
+                                    alert("Please select either add or subtract.");
+                                    return false;
+                                }
+                            }
+                        </script>
+                      </div>
+                      <hr class="text-danger">
+                      <div class="personal-information py-3">
+                          <h2 class="text-center text-warning">Personal Information</h2>
+                          <div class="px-2 d-flex justify-content-between">
+                            <strong>Username</strong>
+                            <span>{{ user_profile.username }}</span>
+                           </div>
+                          <div class="px-2 d-flex justify-content-between">
+                            <strong>First Name</strong>
+                            <span>{{ user_profile.first_name }}</span>
+                           </div>
+                          <div class="px-2 d-flex justify-content-between">
+                            <strong>Last Name</strong>
+                            <span>{{ user_profile.last_name }}</span>
+                           </div>
+                          <div class="px-2 d-flex justify-content-between">
+                            <strong>Email</strong>
+                            <span>{{ user_profile.email }}</span>
+                           </div>
+                          <div class="px-2 d-flex justify-content-between">
+                            <strong>Phone</strong>
+                            <span>{{ user_profile.userdetails.phone }}</span>
+                          </div>
+                          <div class="pt-2 d-flex justify-content-center">
+                            <a href="/adm/edit_profile/{{ user_profile.pk }}/" class="btn btn-warning text-center">Edit Profile</a>
+                          </div>
+                      </div>
+                      <hr class="text-danger">
+                      <div class="personal-information py-3">
+                            {% if all_pending_withdrawals %}
+                            <h2 class="text-center text-warning">Withdrawals</h2>
+                            <h4 class="text-white">Pending Withdrawals</h4>
+                              {% for withdrawal in all_pending_withdrawals %}
+                                <p class="text-dark font-bold">
+                                    Please note that withdrawals are authenticated within 72 hours. If your withdrawal is not effected by
+                                    this time please contact customer care.
+                                </p>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Amount</strong>
+                                <span>{{ withdrawal.amount }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Date</strong>
+                                <span>{{ withdrawal.time_stamp.date }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Time</strong>
+                                <span>{{ withdrawal.time_stamp.time }}</span>
+                              </div>
+                            <hr>
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if all_pending_recharges or recharges_awaiting_authentication %}
+                            <h2 class="text-center text-warning">Recharges</h2>
+                            {% if all_pending_recharges %}
+                            <h4 class="text-white">Pending Recharges</h4>
+                            {% for recharge in all_pending_recharges %}
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Amount</strong>
+                                <span>{{ recharge.amount }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Date</strong>
+                                <span>{{ recharge.time_stamp.date }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Time</strong>
+                                <span>{{ recharge.time_stamp.time }}</span>
+                              </div>
+                            <hr>
+                            {% endfor %}
+                            {% endif %}
+
+                            {% if recharges_awaiting_authentication %}
+                            <h4 class="text-white">Recharges awaiting authentication.</h4>
+                            {% for recharge in recharges_awaiting_authentication %}
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Amount</strong>
+                                <span>{{ recharge.amount }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Date</strong>
+                                <span>{{ recharge.created_at.date }}</span>
+                              </div>
+                              <div class="px-2 d-flex justify-content-between text-white">
+                                <strong>Time</strong>
+                                <span>{{ recharge.created_at.time }}</span>
+                              </div>
+                            <hr>
+                            {% endfor %}
+                            {% endif %}
+                            {% endif %}
+
+                            <h2 class="text-center text-warning">Transactions</h2>
+                            {% if all_transactions %}
+                            <h4 class="text-white">All Transactions</h4>
+                            <div class="accordion mb-3" id="accordionExample">
+                                {% for transaction in all_transactions %}
+                                <!-- Each Accordion Item -->
+                                <div class="accordion-item pb-2">
+                                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                        <button class="accordion-button custom-accordion-color" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                                            {{ transaction.time_stamp.date }} {{ transaction.time_stamp.time }} - {{ transaction.transaction_type }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                                        <div class="row accordion-body text-dark">
+                                            <div class="col-6">
+                                                <strong>Amount</strong>
+                                            </div>
+                                            <div class="col-6">
+                                                <div>{{ transaction.amount }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row accordion-body text-dark">
+                                            <div class="col-6">
+                                                <strong>Account Balance</strong>
+                                            </div>
+                                            <div class="col-6 text-dark">
+                                                <div>{{ transaction.account_balance }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row accordion-body text-dark">
+                                            <div class="col-12">
+                                                {{ transaction.description }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="text-center text-white">No transactions yet.</p>
+                            {% endif %}
+                        </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-3 text-center">
+        <a href="/" class="nav-link d-sm-block d-md-flex">
+          <div class="icon-div">
+            <i class="fas fa-home"></i>
+          </div>
+          <p class="px-1"> Home</p>
+        </a>
+      </div>
+      <div class="col-3 text-center">
+        <a href="/products/" class="nav-link d-sm-block d-md-flex">
+          <div class="icon-div">
+            <i class="fas fa-th"></i>
+          </div>
+          <p class="px-1"> Product</p>
+        </a>
+      </div>
+      {% if user.is_authenticated %}
+        <div class="col-3 text-center">
+          <a href="/my_wallet/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-wallet"></i>
+            </div>
+            <p class="px-1"> Wallet</p>
+          </a>
+
+        </div>
+        <div class="col-3 text-center">
+          <a href="/my_profile/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-user green-1"></i>
+            </div>
+            <p class="px-1 green-1"> Profile</p>
+          </a>
+
+        </div>
+      {% else %}
+        <div class="col-3 text-center">
+          <a href="/login/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-key"></i>
+            </div>
+            <p class="px-1"> Login</p>
+          </a>
+        </div>
+        <div class="col-3 text-center">
+          <a href="/register/" class="nav-link d-sm-block d-md-flex">
+            <div class="icon-div">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <p class="px-1"> Signup</p>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</footer>
+{% endblock %}

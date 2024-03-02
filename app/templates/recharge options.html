@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Recharge Options Page{% endblock %}
+
+{% block body %}
+<style>
+    .form-wrapper {
+      background: #0E5488; /* Translucent white background */
+      width: 100%;
+      top: 0;
+      border-bottom-left-radius: 15px; /* Rounded bottom-left corner */
+      border-bottom-right-radius: 15px; /* Rounded bottom-right corner */
+      padding: 20px; /* Add some padding inside the wrapper */
+    }
+
+</style>
+
+<section id="body-container">
+    <div class="container full d-block align-items-center">
+        <div class="row">
+            <div class="col-lg-5 col-sm-10 mx-auto d-flex text-center">
+                <div class="header-wrapper d-flex mx-auto my-5" style="background: #0E5488; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <span class="d-flex justify-content-start align-items-center">
+                      <a href="/">
+                          <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                      </a>
+                    </span>
+                    <span class="d-block justify-content-center mx-auto">
+                      <h1 class="display-4 text-uppercase text-white mb-0" style="font-size: 50px;">
+                          <strong>Recharge</strong>
+                      </h1>
+                      <div class="title-underline bg-primary"></div>
+                      <p class="mt-2 text-capitalize text-muted">Fill in the form to recharge your account.</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-sm-10 mx-auto">
+                <div class="form-wrapper">
+                    <div class="form-inner">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="amount" class="form-label text-white">Amount</label>
+                                <input type="number" class="form-control" name="amount" id="amount" aria-describedby="phone-desc" onchange="paymentOption()" required>
+                                <div id="phone-desc" class="form-text text-primary">Minimum recharge amount:
+                                    {% if minimum %}{{ minimum }}{% else %}500{% endif %}.</div>
+                            </div>
+                            <p class="text-danger">
+                                After filling this form, proceed with payment in the next page. Please note that it can take up to 3 hours for
+                                your recharge to be processed because we have to be thorough in authentication so that your money may be safe.
+                            </p>
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                                <input type="submit" class="btn btn-primary mx-auto" value="Recharge" placeholder="Recharge" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

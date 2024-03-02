@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Account Details Page{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Personal Details</h1>
+            <p>Username: {{ user.username }}</p><i onclick="changeUsername()">edit</i>
+            <p>First Name: {{ user.first_name }}</p><i onclick="changeFirstName()">edit</i>
+            <p>Last Name: {{ user.last_name }}</p><i onclick="changeLastName()">edit</i>
+            <p>Account balance: {{ user.email }}</p><i onclick="changeEmail()">edit</i>
+            <p>Phone: {{ user.userdetails.phone }}</p><i onclick="changePhone()">edit</i>
+            <p>Account balance: {{ user.userdetails.balance }}</p>
+            <p>Points: {{ user.userdetails.points }}</p>
+        </div>
+        <div class="col">
+            <h1>Subscription Details</h1>
+            {% if subscriptions.count > 0 %}
+                {% for item in subscriptions.product %}
+                    <p>Subscription: {{ item.name }}</p>
+                    <p>Days: {{ item.cycles }}</p>
+                    <p>Daily Earnings: {{ item.daily_earnings }}</p>
+                    <p>Cost: {{ item.cost }}</p>
+                {% endfor %}
+            {% else %}
+                <p>No subscriptions</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

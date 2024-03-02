@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Withdraw Page{% endblock %}
+
+{% block body %}
+<style>
+    .products-wrapper {
+        display: inline-block;
+        width: 100%;
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+    .product-wrapper {
+        width: 85px;
+        height: 60px;
+        padding: 15px;
+        background-color: #0E5488;
+    }
+</style>
+
+</style>
+<section id="body-container">
+  <div class="container">
+    <div class="row">
+            <div class="col-lg-5 col-sm-10 mx-auto d-flex text-center">
+                <div class="header-wrapper d-flex mx-auto my-5" style="background: rgba(14, 84, 136, 0.8); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <span class="d-flex justify-content-start align-items-center">
+                      <a href="/">
+                          <i class="fa-solid fa-arrow-left fa-2xl"></i>
+                      </a>
+                    </span>
+                    <span class="d-block justify-content-center mx-auto">
+                      <h1 class="display-4 text-uppercase text-white mb-0" style="font-size: 50px;">
+                          <strong>Withdraw</strong>
+                      </h1>
+                      <div class="title-underline bg-primary"></div>
+                      <p class="mt-2 text-capitalize text-muted">Fill in the form to withdraw from your account.</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5 col-sm-10 mx-auto pb-5">
+                <div class="form-wrapper" style="background: rgba(14, 84, 136, 0.8); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <div class="form-inner">
+                        {% if products.count > 0 %}
+                        <div class="d-flex products-wrapper">
+                            {% for item in products.product %}
+                                <div class="product-wrapper">
+                                    <p>{{ item.name }}</p>
+                                    <i>{{ item.minimum }}</i>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="amount" class="form-label text-white">Amount</label>
+                                <input type="number" class="form-control" name="amount" id="amount" aria-describedby="phone-desc" onchange="paymentOption()" required>
+                                {% if products.count == 0 %}
+                                    <div id="phone-desc" class="form-text text-primary">Minimum recharge limit: 300.</div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="mpesa-name" class="form-label text-white">Mpesa Name</label>
+                                <input type="text" class="form-control" name="mpesa-name" id="mpesa-name" aria-describedby="mpesa-name-desc" required>
+                                <div id="mpesa-name-desc" class="form-text text-primary">Name as per your m-pesa.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mpesa-number" class="form-label text-white">Mpesa Number</label>
+                                <input type="text" class="form-control" name="mpesa-number" id="mpesa-number" value="{{ user.userdetails.phone }}" aria-describedby="mpesa-number-desc" required>
+                                <div id="mpesa-number-desc" class="form-text text-primary">Your m-pesa number.</div>
+                            </div>
+                            <p class="text-danger">
+                                Fill in the form to initiate withdrawal. Please note that it can take up to 72 hours for your withdrawal to be processed because we have to be thorough in authentication so that your money may be safe.
+                            </p>
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                                <input type="submit" class="btn btn-primary mx-auto" value="Withdraw" placeholder="Withdraw" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+</section>
+
+{% endblock %}
