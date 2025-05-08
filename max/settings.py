@@ -12,7 +12,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'bcoin-c0zo.onrender.com',
+    'secondep.onrender.com',
     'localhost',
     '127.0.0.1'
 ]
@@ -93,14 +93,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'app/static'),  # Points directly to your app's static files
-    os.path.join(BASE_DIR, 'static'),      # Keeps any project-level static files
+    os.path.join(BASE_DIR, 'app/static'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # Security settings for Render
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
-CSRF_TRUSTED_ORIGINS = ['https://bcoin-c0zo.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://secondep.onrender.com']
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
